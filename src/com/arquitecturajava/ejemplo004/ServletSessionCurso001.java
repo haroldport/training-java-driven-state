@@ -17,12 +17,16 @@ public class ServletSessionCurso001 extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Persona persona = (Persona) session.getAttribute("persona");
-		persona.addCurso(request.getParameter("cursoNombre"));
+		if(request.getParameter("cursoNombre") != null) persona.addCurso(request.getParameter("cursoNombre"));
 		PrintWriter pw = response.getWriter();
 		pw.println("<html>");
 		pw.println("<body>");
-		for(String c: persona.getCursos()) {			
-			pw.println("<p>" + c + "</p>");
+		if(persona != null) {			
+			for(String c: persona.getCursos()) {			
+				pw.println("<p>" + c + "</p>");
+			}
+		} else {
+			pw.println("La sesion esta vacia");
 		}
 		pw.println("<a href='formularioCurso.html'>volver al Formulario Curso</a>");
 		pw.println("</body>");
